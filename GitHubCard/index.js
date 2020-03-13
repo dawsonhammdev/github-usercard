@@ -24,7 +24,25 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'];
+
+  followersArray.forEach(i => {
+    axios
+      .get(`https://api.github.com/users/${i}`)
+      .then(res => {
+        console.log(res)
+        card.appendChild(createCard(res.data));
+      })
+      .catch(error => {
+        console.log('error', error);
+      })
+  })
+
+  
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -53,3 +71,73 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+axios 
+  .get('https://api.github.com/users/dawsonhammdev')
+  .then(res => {
+    console.log(res)
+    card.appendChild(createCard(res.data));
+  })
+  .catch(error => {
+    console.log('error', error);
+  })
+
+  const card = document.querySelector('.cards');
+
+
+//create elements
+function createCard(data){
+  const gitCard = document.createElement('div');
+  const cardInfo = document.createElement('div');
+  const cardImg = document.createElement('img');
+  const cardName = document.createElement('h3');
+  const cardUsername = document.createElement('p');
+  const cardLocation = document.createElement('p');
+  const cardProfile = document.createElement('p');
+  const cardSubProfile = document.createElement('a');
+  const cardFollowers = document.createElement('p');
+  const cardBio = document.createElement('p');
+
+//set your content
+
+cardImg.src = data.avatar_url;
+cardName.textContent = data.name;
+cardUsername.textContent = data.login;
+cardLocation.textContent = data.location;
+cardProfile.textContent = "Profile";
+cardSubProfile.href = data.html_url;
+cardFollowers.textContent = data.followers;
+cardBio.textContent = data.bio;
+
+//structure your DOM
+
+{/* <div class="card">
+  <img src={image url of user} />
+  <div class="card-info">
+    <h3 class="name">{users name}</h3>
+    <p class="username">{users user name}</p>
+    <p>Location: {users location}</p>
+    <p>Profile:  
+      <a href={address to users github page}>{address to users github page}</a>
+    </p>
+    <p>Followers: {users followers count}</p>
+    <p>Following: {users following count}</p>
+    <p>Bio: {users bio}</p>
+  </div>
+</div> */}
+
+gitCard.append(cardImg);
+gitCard.append(cardInfo)
+cardInfo.append(cardName);
+cardInfo.append(cardUsername);
+cardInfo.append(cardLocation);
+gitCard.append(cardProfile);
+cardProfile.append(cardSubProfile);
+cardInfo.append(cardFollowers);
+cardInfo.append(cardSubProfile);
+
+
+return gitCard
+}
+
+
